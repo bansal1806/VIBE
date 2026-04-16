@@ -4,6 +4,8 @@ import { requireUser } from '@/lib/auth'
 import { computeCompatibility } from '@/lib/utils/matching'
 import { formatDistance, haversineDistanceKm } from '@/lib/utils/geo'
 import { SwipeDirection, SwipeTargetType } from '@prisma/client'
+import { maskProfileData } from '@/lib/utils/privacy'
+
 
 export const dynamic = 'force-dynamic'
 
@@ -174,18 +176,21 @@ export async function GET(): Promise<NextResponse<FeedResponse | { error: string
       const candidateRooms = candidate.rooms.map((r) => r.roomId)
       const sharedRooms = candidateRooms.filter((roomId) => mutualRooms.has(roomId)).length
 
+      const trustLevel = connection?.trustLevel ?? 0
+      const maskedCandidate = maskProfileData(candidate, trustLevel)
+
       return {
         type: 'user',
         id: candidate.id,
         alias: candidate.alias,
-        name: candidate.name,
+        name: maskedCandidate.name,
         avatarUrl: candidate.avatarUrl,
         headline: candidate.headline,
-        major: candidate.major,
-        year: candidate.year,
-        bio: candidate.bio,
+        major: maskedCandidate.major,
+        year: maskedCandidate.year,
+        bio: maskedCandidate.bio,
         compatibilityScore: compatibility.score,
-        sharedInterests: compatibility.sharedInterests.slice(0, 6),
+        sharedInterests: (maskedCandidate.interests || []).slice(0, 6),
         sharedIntents: compatibility.sharedIntents.slice(0, 4),
         proximity: formatDistance(compatibility.proximityKm ?? undefined),
         lastActiveAt: candidate.lastActiveAt?.toISOString() ?? candidate.updatedAt.toISOString(),

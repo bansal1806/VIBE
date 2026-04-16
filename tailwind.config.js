@@ -56,6 +56,14 @@ module.exports = {
           800: '#1e40af',
           900: '#1e3a8a',
         },
+        // Nexus/Instagram inspired
+        nexus: {
+          blue: '#0095f6',
+          'blue-hover': '#1877f2',
+          gray: '#262626',
+          'gray-light': '#363636',
+          'gray-muted': '#8e8e8e',
+        }
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',
@@ -64,6 +72,8 @@ module.exports = {
         'glow-pulse': 'glowPulse 2s ease-in-out infinite',
         'radar-scan': 'radarScan 3s linear infinite',
         'neon-flicker': 'neonFlicker 0.15s ease-in-out infinite',
+        'float': 'float 6s ease-in-out infinite',
+        'subtle-pulse': 'subtlePulse 4s ease-in-out infinite',
       },
       keyframes: {
         fadeIn: {
@@ -95,6 +105,14 @@ module.exports = {
         neonFlicker: {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0.8' },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-20px)' },
+        },
+        subtlePulse: {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.9' },
         },
       },
       boxShadow: {

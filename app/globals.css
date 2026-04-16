@@ -187,4 +187,33 @@
   .animate-grid-move {
     animation: gridMove 20s linear infinite;
   }
+
+  /* Nexus Layout */
+  .nexus-split-left {
+    @apply bg-black-pure relative flex items-center justify-center overflow-hidden;
+  }
+  
+  .nexus-split-right {
+    @apply bg-black-pure border-l border-white/5 flex flex-col items-center justify-center px-8 sm:px-12;
+  }
+
+  .nexus-input {
+    @apply w-full bg-black-deep border border-nexus-gray rounded-sm px-3 py-2 text-xs text-white placeholder:text-nexus-gray-muted focus:border-nexus-gray-light focus:outline-none transition-all;
+  }
+
+  .nexus-button-primary {
+    @apply w-full bg-nexus-blue hover:bg-nexus-blue-hover text-white font-semibold rounded-lg py-2 text-sm transition-colors disabled:opacity-70 disabled:cursor-not-allowed;
+  }
+
+  .nexus-separator {
+    @apply flex items-center gap-4 w-full my-6;
+  }
+  
+  .nexus-separator-line {
+    @apply h-[1px] bg-nexus-gray flex-1;
+  }
+
+  .nexus-gradient-text {
+    @apply bg-gradient-to-r from-nexus-blue via-neon-pink to-nexus-blue bg-clip-text text-transparent;
+  }
 }

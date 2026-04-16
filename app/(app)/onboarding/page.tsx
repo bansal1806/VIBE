@@ -12,8 +12,26 @@ export default function OnboardingPage() {
     if (isLoading) return
     if (!isAuthenticated) {
       router.replace('/sign-in?redirect=' + encodeURIComponent('/onboarding'))
+      return
     }
-    // TODO: load profile completion state from API and route to /app when complete
+
+    // Load profile completion state from API
+    async function checkProfileStatus() {
+      try {
+        const response = await fetch('/api/profile/status')
+        if (response.ok) {
+          const data = await response.json()
+          // If profile is complete, redirect to main app
+          if (data.isComplete) {
+            router.replace('/app')
+          }
+        }
+      } catch (error) {
+        console.error('Failed to check profile status:', error)
+      }
+    }
+
+    checkProfileStatus()
   }, [isLoading, isAuthenticated, router])
 
   if (isLoading) {

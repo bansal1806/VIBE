@@ -3,7 +3,7 @@ import { prisma } from './prisma'
 
 export async function requireUser() {
   const payload = await getCurrentUser()
-  
+
   if (!payload) {
     throw new Error('UNAUTHORIZED')
   }
@@ -34,3 +34,6 @@ export async function getOptionalUser() {
     return null
   }
 }
+
+// Alias for backward compatibility
+export const getSession = requireUser

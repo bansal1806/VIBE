@@ -1,7 +1,16 @@
 import jwt from 'jsonwebtoken'
 import { cookies } from 'next/headers'
 
-const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-change-in-production'
+// Validate JWT secret on initialization
+if (!process.env.JWT_SECRET) {
+  throw new Error('JWT_SECRET environment variable is required')
+}
+if (process.env.JWT_SECRET.length < 32) {
+  throw new Error('JWT_SECRET must be at least 32 characters long')
+}
+
+// After validation, we know JWT_SECRET is defined and valid
+const JWT_SECRET: string = process.env.JWT_SECRET
 const JWT_EXPIRY = process.env.JWT_EXPIRY || '7d'
 const COOKIE_NAME = 'vibe_session'
 
@@ -19,7 +28,7 @@ export function generateToken(userId: string, email: string): string {
   return jwt.sign(
     { userId, email },
     JWT_SECRET,
-    { expiresIn: JWT_EXPIRY }
+    { expiresIn: JWT_EXPIRY as `${number}d` | `${number}h` }
   )
 }
 
@@ -73,7 +82,7 @@ export async function getCurrentUser(): Promise<JWTPayload | null> {
   if (!token) {
     return null
   }
-  
+
   return verifyToken(token)
 }
 

@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/redis'
+import { getRedisClient } from '@/lib/redis'
 
 const OTP_EXPIRY_SECONDS = 600 // 10 minutes
 const MAX_OTP_ATTEMPTS = 3
@@ -39,7 +39,8 @@ export async function storeOTP(email: string, otp: string): Promise<void> {
   }
 
   try {
-    const redis = createClient()
+    const redis = getRedisClient()
+    if (!redis) throw new Error('Redis not available')
     await redis.setex(`otp:${key}`, OTP_EXPIRY_SECONDS, otp)
   } catch {
     // Fallback to memory if Redis fails at runtime
@@ -68,7 +69,8 @@ export async function verifyOTP(email: string, otp: string): Promise<boolean> {
   }
 
   try {
-    const redis = createClient()
+    const redis = getRedisClient()
+    if (!redis) throw new Error('Redis not available')
     const storedOTP = await redis.get(`otp:${key}`)
     if (!storedOTP) return false
     const isValid = storedOTP === otp
@@ -113,7 +115,8 @@ export async function checkRateLimit(email: string): Promise<{ allowed: boolean;
   }
 
   try {
-    const redis = createClient()
+    const redis = getRedisClient()
+    if (!redis) throw new Error('Redis not available')
     const rateKey = `otp:rate:${key}`
     const attempts = await redis.incr(rateKey)
     if (attempts === 1) {
@@ -150,7 +153,8 @@ export async function clearRateLimit(email: string): Promise<void> {
   }
 
   try {
-    const redis = createClient()
+    const redis = getRedisClient()
+    if (!redis) throw new Error('Redis not available')
     await redis.del(`otp:rate:${key}`)
   } catch {
     memoryRateLimitStore.delete(key)
@@ -171,7 +175,8 @@ export async function getOTPExpiry(email: string): Promise<number | null> {
   }
 
   try {
-    const redis = createClient()
+    const redis = getRedisClient()
+    if (!redis) throw new Error('Redis not available')
     const ttl = await redis.ttl(`otp:${key}`)
     return ttl > 0 ? ttl : null
   } catch {

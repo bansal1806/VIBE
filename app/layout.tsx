@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import QueryProvider from '@/components/providers/QueryProvider'
 import { ThemeProvider } from '@/components/providers/ThemeProvider'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
 
 export const metadata: Metadata = {
   title: 'Vibe - Campus Connection Platform',
@@ -30,7 +31,9 @@ export default function RootLayout({
       <body>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <ThemeProvider>
-          <QueryProvider>{children}</QueryProvider>
+          <QueryProvider>
+            <ErrorBoundary>{children}</ErrorBoundary>
+          </QueryProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -6,7 +6,6 @@ datasource db {
   provider          = "postgresql"
   url               = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
-  // Shadow database is optional - Prisma will use the main database if shadow is not available
 }
 
 enum RoomType {
@@ -58,6 +57,13 @@ enum NotificationType {
   EVENT_UPDATE
   TIME_CAPSULE
   SYSTEM
+  ACTION_REQUIRED
+}
+
+enum ReportStatus {
+  PENDING
+  RESOLVED
+  DISMISSED
 }
 
 model User {
@@ -110,6 +116,7 @@ model User {
   notifications Notification[]
   createdEvents Event[]            @relation("EventCreator")
   timecapsuleContributions TimecapsuleContribution[]
+  reportsSent   Report[]           @relation("Reporter")
 }
 
 model Room {
@@ -369,5 +376,27 @@ model Notification {
   user      User             @relation(fields: [userId], references: [id])
 
   @@index([userId, createdAt])
+}
+
+model Report {
+  @@map("reports")
+  id                String       @id @default(cuid())
+  reporterId        String
+  targetUserId      String?
+  targetRoomId      String?
+  targetMessageId   String?
+  targetTimecapsuleId String?
+  reason            String
+  details           String?
+  evidence          String[]     @default([])
+  status            ReportStatus @default(PENDING)
+  notes             String?      // Admin notes
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+
+  reporter          User         @relation("Reporter", fields: [reporterId], references: [id])
+
+  @@index([reporterId])
+  @@index([status])
 }
 

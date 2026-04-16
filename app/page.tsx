@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 import { verifyToken } from '@/lib/auth/jwt'
-import LandingPage from '@/components/LandingPage'
+import NexusLanding from '@/components/landing/NexusLanding'
 
 export default async function Home() {
   const cookieStore = await cookies()
@@ -14,5 +14,5 @@ export default async function Home() {
     }
   }
 
-  return <LandingPage />
+  return <NexusLanding />
 }
