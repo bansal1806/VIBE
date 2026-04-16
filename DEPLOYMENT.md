@@ -106,13 +106,13 @@ Set policies to allow authenticated reads and user-specific writes.
 
 ### Local Development:
 ```bash
-# Using Docker
-docker run -d -p 6379:6379 redis:7
-
-# Or install locally
+# Install locally
 # Windows: https://github.com/microsoftarchive/redis/releases
 # Mac: brew install redis
 # Linux: sudo apt-get install redis-server
+
+# Then start the server:
+redis-server
 ```
 
 ### Production:
@@ -136,7 +136,7 @@ npm run worker
 Deploy as separate service or use serverless:
 - Vercel Cron Jobs
 - AWS Lambda with EventBridge
-- Separate Docker container
+- Separate self-hosted Node.js processes
 
 ---
 

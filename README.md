@@ -160,8 +160,8 @@ npx prisma generate
 # 5. Run database migrations
 npx prisma migrate dev --name init
 
-# 6. Start Redis (if using Docker)
-docker run -d -p 6379:6379 redis:7
+# 6. Start Redis locally
+redis-server
 
 # 7. Start development server
 npm run dev
@@ -257,7 +257,7 @@ You'll need accounts for these services (all have free tiers):
 
 #### **2. Redis** (Caching & Jobs)
 Choose one:
-- **Local**: `brew install redis` or Docker
+- **Local**: `brew install redis` (Mac) or use Windows/Linux native packages
 - **Cloud**: [Upstash](https://upstash.com) (recommended, free tier)
 
 #### **3. Email Service** 
@@ -382,7 +382,7 @@ The BullMQ worker needs to run separately:
 **Options:**
 - **Vercel Cron Jobs** (for simple tasks)
 - **Separate service** (Railway, Render, Fly.io)
-- **Docker container** (self-hosted)
+- **Self-hosted Node.js processes**
 
 📚 **Full Deployment Guide**: See [DEPLOYMENT.md](./DEPLOYMENT.md)
 

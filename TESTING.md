@@ -24,13 +24,6 @@ Visit: http://localhost:3000
 npm run worker
 ```
 
-### 3. Start MailHog (Email Testing)
-```bash
-docker-compose up mailhog
-```
-
-Visit: http://localhost:8025 to see captured emails
-
 ---
 
 ## Test Scenarios
@@ -39,7 +32,7 @@ Visit: http://localhost:8025 to see captured emails
 1. Go to `/onboarding`
 2. Enter .edu email
 3. Click "Send Code"
-4. Check MailHog for OTP
+4. Check your configured email service for the OTP
 5. Enter OTP
 6. Complete profile setup
 

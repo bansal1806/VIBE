@@ -10,14 +10,14 @@
 
 ## Backend
 - **APIs**: Next.js Route Handlers & Server Actions
-- **Database**: PostgreSQL (Supabase managed in prod, Docker locally) via Prisma ORM
+- **Database**: PostgreSQL (Supabase managed in prod, locally installed DB for dev) via Prisma ORM
 - **Realtime**: Supabase Realtime channels (rooms, chat, presence)
 - **Caching/Jobs**: Redis + BullMQ worker (room expiry, timecapsule unlocks)
 - **Storage**: Supabase Storage (prod) / local uploads (dev)
 - **Authentication**: Clerk (email magic link, .edu enforcement)
 
 ## Infrastructure
-- **Local**: Docker Compose (Postgres, Redis, MailHog). Supabase Realtime via Supabase CLI.
+- **Local**: Native installations (Postgres, Redis). Supabase Realtime via Supabase CLI.
 - **Staging**: Vercel Preview + Supabase staging project + Clerk staging.
 - **Production**: Vercel + Supabase + Clerk. CI/CD through GitHub Actions.
 
@@ -33,7 +33,7 @@
 Defined in `prisma/schema.prisma` covering users, rooms, conversations, messages, timecapsules.
 
 ## Roadmap Snapshot
-1. Scaffold environment, dependencies, Docker, Prisma.
+1. Scaffold environment, dependencies, Postgres/Redis setup, Prisma.
 2. Integrate Clerk auth & onboarding flow.
 3. Wire Supabase Realtime helpers.
 4. Build feature modules incrementally.
